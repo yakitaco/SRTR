@@ -1,0 +1,2 @@
+# SRTR
+Shiritori algorithm
