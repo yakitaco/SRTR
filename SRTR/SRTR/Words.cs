@@ -11,7 +11,7 @@ namespace SRTR {
         public static List<Words> wList = new List<Words>();
 
         public string word;  // 文字
-        public bool used = false;    // 使用済みフラグ
+        //public bool used = false;    // 使用済みフラグ
 
         public Words(string _word) {
             word = _word;
