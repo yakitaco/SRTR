@@ -13,6 +13,10 @@ namespace SRTR {
         bool reuse;
         public List<List<int>> sList;
 
+        //
+        System.Globalization.CompareInfo ci =
+            System.Globalization.CultureInfo.CurrentCulture.CompareInfo;
+
         // しりとり作成
         public void make(char _start, char _end, int _count, bool _reuse) {
             end = _end;
@@ -39,15 +43,20 @@ namespace SRTR {
                         teCnt++;
                     }
 
-                    if (Words.wList[cnt_local].word[0] == _start) {
+                    //if (Words.wList[cnt_local].word[0] == _start) {
+                    if (ci.Compare(Words.wList[cnt_local].word[0].ToString(), _start.ToString(),
+                        System.Globalization.CompareOptions.IgnoreWidth |
+                        System.Globalization.CompareOptions.IgnoreKanaType) == 0) {
                         string wStr = Words.wList[cnt_local].word;
                         Debug.WriteLine("S[" + cnt_local + "]" + wStr);
                         List<int> _nList = new List<int>();
                         _nList.Add(cnt_local);
                         // 終わりが一致
-                        if (wStr[wStr.Length - 1] == _end) {
+                        //if (wStr[wStr.Length - 1] == _end) {
+                        if (ci.Compare(wStr[wStr.Length - 1].ToString(), _end.ToString(),
+                            System.Globalization.CompareOptions.IgnoreWidth |
+                            System.Globalization.CompareOptions.IgnoreKanaType) == 0) {
                             sList.Add(_nList);
-                            //break;
                         } else {
                             bool[] _dList = new bool[Words.wList.Count]; // 使用済みリスト
                             _dList[cnt_local] = true;
@@ -59,9 +68,6 @@ namespace SRTR {
 
                 }
             });
-
-            // しりとりリスト作成再帰関数
-            //bool ret = getSR(_start, 1, new List<int>());
 
             if (sList.Count > 0) {
                 // 短い順に並べ替える
@@ -76,12 +82,19 @@ namespace SRTR {
             int i;
             for (i = 0; i < Words.wList.Count; i++) {
                 string wStr = Words.wList[i].word;
-                if ((wStr[0] == c) && (_dList[i] == false)) {
+                //if ((wStr[0] == c) 
+                if ((ci.Compare(wStr[0].ToString(), c.ToString(),
+                                        System.Globalization.CompareOptions.IgnoreWidth |
+                                        System.Globalization.CompareOptions.IgnoreKanaType) == 0)
+                                    && (_dList[i] == false)) {
                     List<int> _nList = new List<int>(uList);
                     _nList.Add(i);
                     //Debug.WriteLine(num + ":["+ i + "]" + wStr);
                     // 終わりが一致
-                    if (wStr[wStr.Length - 1] == end) {
+                    //if (wStr[wStr.Length - 1] == end) {
+                    if (ci.Compare(wStr[wStr.Length - 1].ToString(), end.ToString(),
+                        System.Globalization.CompareOptions.IgnoreWidth |
+                        System.Globalization.CompareOptions.IgnoreKanaType) == 0) {
                         ret = true;
                         sList.Add(_nList);
                         //break;
